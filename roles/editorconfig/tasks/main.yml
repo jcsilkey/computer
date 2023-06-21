@@ -1,0 +1,12 @@
+---
+- name: Install editorconfig
+  become: true
+  community.general.macports:
+    name: editorconfig-core-c
+    state: installed
+
+- name: Copy editorconfig config file
+  ansible.builtin.copy:
+    src: editorconfig
+    dest: "{{ lookup('env', 'HOME') }}/.editorconfig"
+    force: true

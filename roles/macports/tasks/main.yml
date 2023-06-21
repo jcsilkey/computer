@@ -26,9 +26,7 @@
     - py311-virtualenv
     - py311-wheel
     - mas
-    - editorconfig-core-c
     - cowsay
-    - neovim
     - the_silver_searcher
     - fzf
     - tree
