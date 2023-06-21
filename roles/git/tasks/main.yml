@@ -1,0 +1,34 @@
+---
+- name: Install git
+  become: true
+  community.general.macports:
+    name: git
+    state: installed
+
+- name: Get stats of a file
+  ansible.builtin.stat:
+    path: /usr/local/bin/git-credential-manager
+  register: git_gcm
+  changed_when: false
+
+- name: Check Git Credential Manager version
+  ansible.builtin.shell:
+    cmd: |
+      /usr/local/bin/git-credential-manager --version
+  register: current_git_gcm_version
+  when: git_gcm.stat.exists
+  changed_when: false
+
+- name: Download Git Credential Manager installer
+  ansible.builtin.get_url:
+    url: "https://github.com/git-ecosystem/git-credential-manager/releases/download/v{{ git_gcm_version }}/gcm-osx-arm64-{{ git_gcm_version }}.pkg"
+    dest: "{{ lookup('env', 'TMPDIR') }}/gcm-installer.pkg"
+    force: true
+  when: git_gcm.stat.exists is false or (current_git_gcm_version is defined and current_git_gcm_version.stdout is version(git_gcm_version, 'ne'))
+
+- name: Install Git Credential Manager
+  ansible.builtin.shell:
+    cmd: |
+      installer -pkg {{ lookup('env', 'TMPDIR') }}/gcm-installer.pkg -target /
+  become: true
+  when: git_gcm.stat.exists is false or (current_git_gcm_version is defined and current_git_gcm_version.stdout is version(git_gcm_version, 'ne'))
