@@ -1,0 +1,26 @@
+---
+- name: Check Secretive version
+  ansible.builtin.shell:
+    cmd: |
+      if [[ -d /Applications/Secretive.app ]]; then
+        mdls -name kMDItemVersion --raw /Applications/Secretive.app
+      else
+        echo 0.0.0
+      fi
+  register: current_secretive_version
+  ignore_errors: true
+
+- name: Download and install Secretive
+  ansible.builtin.unarchive:
+    src: 'https://github.com/maxgoedjen/secretive/releases/download/v{{ secretive_version }}/Secretive.zip'
+    dest: /Applications
+    remote_src: true
+  when: current_secretive_version is defined and current_secretive_version.stdout is version(secretive_version, 'ne')
+
+- name: Set SSH auth sock environment variable
+  ansible.builtin.lineinfile:
+    path: '{{ xdg_config_home }}/env/ssh'
+    regexp: '^SSH_AUTH_SOCK='
+    line: "SSH_AUTH_SOCK={{ lookup('env', 'HOME') }}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+    create: true
+    mode: '0600'
