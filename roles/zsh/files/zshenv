@@ -1,0 +1,40 @@
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+
+if [[ -d $XDG_CONFIG_HOME/env ]]; then
+  for envfile in $XDG_CONFIG_HOME/env/*(N.);
+  do
+    while read line
+    do
+      export $line
+    done < $envfile
+  done
+fi
+
+if [[ "$OSTYPE" = darwin* ]] && [[ $(sw_vers -productName) = 'Mac OS X' ]]; then
+  export OS_PLATFORM='mac'
+  export OS_VERSION=$(sw_vers -productVersion)
+  export OS_VERSION_MAJOR=$(echo $OS_VERSION | awk -F '.' '{print $1}')
+  export OS_VERSION_MINOR=$(echo $OS_VERSION | awk -F '.' '{print $2}')
+  export OS_VERSION_PATCH=$(echo $OS_VERSION | awk -F '-' '{print $1}' | awk -F '.' '{print $3}')
+  export OS_VERSION_BUILD=$(sw_vers -buildVersion)
+fi
+
+: ${ZSH_CONFIG="${XDG_CONFIG_HOME}/zsh"}
+: ${ZSH_LOCAL="${XDG_DATA_HOME}/zsh"}
+: ${ZSH_COMP_CACHE=1}
+: ${ZSH_COMP_CACHE_DIR="${ZSH_LOCAL}/compcache"}
+: ${ANTIDOTE_HOME="${ZSH_LOCAL}/plugins"}
+: ${ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"}
+: ${ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdfrc"}
+: ${ASDF_DIR="${ZSH_LOCAL}/plugins/https-COLON--SLASH--SLASH-github.com-SLASH-asdf-vm-SLASH-asdf"}
+
+export ZSH_CONFIG
+export ZSH_LOCAL
+export ZSH_COMP_CACHE
+export ZSH_COMP_CACHE_DIR
+export ANTIDOTE_HOME
+export HELPDIR=/usr/local/share/zsh/help
+export ASDF_CONFIG_FILE
+export ASDF_DATA_DIR
+export ASDF_DIR

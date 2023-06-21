@@ -1,0 +1,43 @@
+setopt no_global_rcs
+
+# Set the name of the static .zsh plugins file antidote will generate.
+zsh_plugins=${ZSH_LOCAL}/zsh_plugins.zsh
+zsh_plugins_list=${ZSH_CONFIG}/zsh_plugins.txt
+
+# Ensure you have a .zsh_plugins.txt file where you can add plugins.
+[[ -f ${zsh_plugins_list} ]] || touch ${zsh_plugins_list}
+
+# Lazy-load antidote.
+fpath+=(~/.local/antidote)
+autoload -Uz $fpath[-1]/antidote
+
+# Generate static file in a subshell when .zsh_plugins.txt is updated.
+if [[ ! $zsh_plugins -nt ${zsh_plugins_list} ]]; then
+  (antidote bundle <${zsh_plugins_list} >|$zsh_plugins)
+fi
+
+source $zsh_plugins
+
+source "${ZSH_CONFIG}/paths.zsh"
+
+eval "$(starship init zsh)"
+
+# load custom executable functions
+#for function in $ZSH_CONFIG/functions/*; do
+#  autoload -Uz +X $function
+#done
+
+#zmodload zsh/termcap
+#zmodload zsh/terminfo
+
+#if (alias run-help > /dev/null); then
+#  unalias run-help
+#fi
+#autoload run-help
+#autoload -Uz vcs_info
+#autoload zmv
+
+#load_settings "${ZSH_CONFIG}/configs"
+
+#autoload -Uz promptinit
+#promptinit

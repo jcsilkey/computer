@@ -1,0 +1,5 @@
+- name: 'Copy {{ item }} to home directory'
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: '~/.{{ item }}'
+    force: true
