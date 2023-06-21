@@ -3,5 +3,6 @@
   roles:
     - terminal
     - zsh
+    - tmux
     - secretive
     - git
