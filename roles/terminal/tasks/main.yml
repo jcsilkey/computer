@@ -1,0 +1,21 @@
+---
+- name: "Install kitty, a better terminal emulator"
+  become: true
+  community.general.macports:
+    name: kitty
+    state: installed
+
+- name: Create directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0700'
+  loop:
+    - '{{ xdg_config_home }}/kitty'
+
+- name: Copy kitty configuration file
+  ansible.builtin.copy:
+    src: kitty.conf
+    dest: '{{ xdg_config_home }}/kitty/kitty.conf'
+    force: true
+    mode: '0600'
