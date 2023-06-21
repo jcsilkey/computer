@@ -1,0 +1,67 @@
+---
+- name: Upgrade Mac App Store Apps
+  community.general.mas:
+    upgrade_all: yes
+  when: mas_apps_upgrade is true
+
+- name: 'Install Mac App Store Apps'
+  community.general.mas:
+    id: '{{ app.id }}' 
+    state: present
+  environment:
+    PATH: /opt/local/bin:{{ ansible_facts.env.PATH }}
+  loop_control:
+    loop_var: app
+  loop:
+    - name: Amphetamine
+      id: 937984704
+    - name: Roadblock
+      id: 1051436753
+    - name: Magnet
+      id: 441258766
+    - name: Xcode
+      id: 497799835
+    - name: Base
+      id: 402383384
+    - name: Acorn
+      id: 1233861775
+    - name: CCMenu
+      id: 603117688
+    - name: Medis
+      id: 1063631769
+    - name: OmniGraffle
+      id: 1142578753
+    - name: Pixelmator
+      id: 407963104
+    - name: Reeder
+      id: 1529448980
+    - name: Slack
+      id: 803453959
+    - name: Speedtest
+      id: 1153157709
+    - name: Table Tool
+      id: 1122008420
+    - name: The Unarchiver
+      id: 425424353
+    - name: Things
+      id: 904280696
+    - name: Calcbot
+      id: 931657367
+    - name: Keynote
+      id: 409183694
+    - name: Pages
+      id: 409201541
+    - name: Numbers
+      id: 409203825
+    - name: The Clock
+      id: 488764545
+    - name: Apple Developer
+      id: 640199958
+    - name: Sequel Ace
+      id: 1518036000
+    - name: Disk Speed Test
+      id: 425264550
+    - name: Screens
+      id: 1224268771
+    - name: TestFlight
+      id: 899247664
