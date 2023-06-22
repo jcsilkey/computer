@@ -1,0 +1,19 @@
+---
+- name: Enable Unbound
+  ansible.builtin.shell:
+    cmd: |
+      launchctl enable system/org.macports.unbound
+  become: true
+
+- name: Reload Unbound
+  community.general.launchd:
+    name: org.macports.unbound
+    state: reloaded
+  become: true
+
+- name: Flush DNS Cache
+  ansible.builtin.shell:
+    cmd: |
+      dscacheutil -flushcache
+      killall -HUP mDNSResponder
+  become: true

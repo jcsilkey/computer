@@ -43,4 +43,3 @@
     - yubikey-manager
     - kubectl-1.27
     - openjdk20-oracle
-    - unbound

@@ -1,5 +1,5 @@
 ---
-- name: "Install Neovim"
+- name: Install Neovim
   become: true
   community.general.macports:
     name: neovim
