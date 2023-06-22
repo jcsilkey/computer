@@ -4,6 +4,7 @@
     - terminal
     - editorconfig
     - neovim
+    - asdf
     - zsh
     - tmux
     - secretive
