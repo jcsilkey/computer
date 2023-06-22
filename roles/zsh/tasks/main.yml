@@ -44,3 +44,18 @@
     - zsh-users/zsh-syntax-highlighting
     - zsh-users/zsh-history-substring-search
     - zsh-users/zsh-completions
+
+- name: Set autoenv environment variables
+  ansible.builtin.lineinfile:
+    path: '{{ xdg_config_home }}/env/zshautoenv'
+    regexp: '^{{ item.var }}='
+    line: "{{ item.var }}={{ item.value }}"
+    create: true
+    mode: '0600'
+  loop:
+    - var: AUTOENV_FILE_ENTER
+      value: ".autoenv.zsh"
+    - var: AUTOENV_FILE_LEAVE
+      value: ".autoenv.zsh"
+    - var: AUTOENV_HANDLE_LEAVE
+      value: 1
