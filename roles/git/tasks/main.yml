@@ -43,4 +43,4 @@
     scope: '{{ item.scope }}'
     name: '{{ item.name }}'
     value: '{{ item.value }}'
-  loop: '{{ gitconfig_settings }}'
+  loop: '{{ git_config }}'
