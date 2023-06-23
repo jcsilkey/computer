@@ -1,9 +1,14 @@
 ---
-- name: Install git
+- name: Install git tools
   become: true
   community.general.macports:
-    name: git
+    name: "{{ port }}"
     state: installed
+  loop_control:
+    loop_var: port
+  loop:
+    - git
+    - bfg
 
 - name: Get stats of a file
   ansible.builtin.stat:
@@ -32,3 +37,10 @@
       installer -pkg {{ lookup('env', 'TMPDIR') }}/gcm-installer.pkg -target /
   become: true
   when: git_gcm.stat.exists is false or (current_git_gcm_version is defined and current_git_gcm_version.stdout is version(git_gcm_version, 'ne'))
+
+- name: Configure git
+  community.general.git_config:
+    scope: '{{ item.scope }}'
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+  loop: '{{ gitconfig_settings }}'

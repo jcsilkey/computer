@@ -1,0 +1,15 @@
+---
+- name: Upgrade Mac App Store Apps
+  community.general.mas:
+    upgrade_all: yes
+  when: mas_apps_upgrade is true
+
+- name: 'Install Mac App Store Apps'
+  community.general.mas:
+    id: '{{ app.id }}'
+    state: present
+  environment:
+    PATH: /opt/local/bin:{{ ansible_facts.env.PATH }}
+  loop_control:
+    loop_var: app
+  loop: '{{ mas_apps }}'

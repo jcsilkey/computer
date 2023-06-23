@@ -18,28 +18,4 @@
     state: installed
   loop_control:
     loop_var: port
-  loop:
-    - curl-ca-bundle
-    - python311
-    - py311-ansible
-    - py311-pip
-    - py311-virtualenv
-    - py311-wheel
-    - mas
-    - cowsay
-    - the_silver_searcher
-    - fzf
-    - tree
-    - yq
-    - jq
-    - htop
-    - highlight
-    - wget
-    - gnupg2
-    - hub
-    - curl
-    - unzip
-    - coreutils
-    - yubikey-manager
-    - kubectl-1.27
-    - openjdk20-oracle
+  loop: '{{ macports_ports }}'
