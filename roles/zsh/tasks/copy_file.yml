@@ -1,5 +1,0 @@
-- name: 'Copy {{ item.src }} to directory {{ item.dest }}'
-  ansible.builtin.copy:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}/{{ item.src }}'
-    force: true
