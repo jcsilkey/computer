@@ -21,23 +21,3 @@ source $zsh_plugins
 source "${ZSH_CONFIG}/paths.zsh"
 
 eval "$(starship init zsh)"
-
-# load custom executable functions
-#for function in $ZSH_CONFIG/functions/*; do
-#  autoload -Uz +X $function
-#done
-
-#zmodload zsh/termcap
-#zmodload zsh/terminfo
-
-#if (alias run-help > /dev/null); then
-#  unalias run-help
-#fi
-#autoload run-help
-#autoload -Uz vcs_info
-#autoload zmv
-
-#load_settings "${ZSH_CONFIG}/configs"
-
-#autoload -Uz promptinit
-#promptinit

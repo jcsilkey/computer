@@ -1,14 +1,15 @@
-export XDG_CONFIG_HOME="${HOME}/.config"
-export XDG_DATA_HOME="${HOME}/.local/share"
+# This is not the safest approach for exporting environment variables from multiple env files, since *any* file placed
+# in this directory will be sourced for your session. The right way to approach this would be to ask the user to authorize
+# the file before importing, something like what https://github.com/Tarrasch/zsh-autoenv does
+env_files="{{ xdg_config_home }}/env"
 
-if [[ -d $XDG_CONFIG_HOME/env ]]; then
-  for envfile in $XDG_CONFIG_HOME/env/*(N.);
+if [[ -d $env_files ]]; then
+  set -o allexport
+  for envfile in $env_files/*(N.);
   do
-    while read line
-    do
-      export $line
-    done < $envfile
+    source $envfile
   done
+  set +o allexport
 fi
 
 if [[ "$OSTYPE" = darwin* ]] && [[ $(sw_vers -productName) = 'Mac OS X' ]]; then
@@ -23,11 +24,8 @@ fi
 : ${ZSH_CONFIG="${XDG_CONFIG_HOME}/zsh"}
 : ${ZSH_LOCAL="${XDG_DATA_HOME}/zsh"}
 : ${ZSH_COMP_CACHE=1}
-: ${ZSH_COMP_CACHE_DIR="${ZSH_LOCAL}/compcache"}
+: ${ZSH_COMP_CACHE_DIR="${XDG_CACHE_HOME}/compcache"}
 : ${ANTIDOTE_HOME="${ZSH_LOCAL}/plugins"}
-: ${ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"}
-: ${ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdfrc"}
-: ${ASDF_DIR="${ZSH_LOCAL}/plugins/https-COLON--SLASH--SLASH-github.com-SLASH-asdf-vm-SLASH-asdf"}
 
 export ZSH_CONFIG
 export ZSH_LOCAL
@@ -35,6 +33,3 @@ export ZSH_COMP_CACHE
 export ZSH_COMP_CACHE_DIR
 export ANTIDOTE_HOME
 export HELPDIR=/usr/local/share/zsh/help
-export ASDF_CONFIG_FILE
-export ASDF_DATA_DIR
-export ASDF_DIR

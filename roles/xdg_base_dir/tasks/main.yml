@@ -1,0 +1,28 @@
+---
+- name: Set xdg environment variables
+  ansible.builtin.lineinfile:
+    path: '{{ xdg_config_home }}/env/000_xdg'
+    regexp: '^{{ item.var }}='
+    line: "{{ item.var }}={{ item.value }}"
+    create: true
+    mode: '0600'
+  loop:
+    - var: XDG_CACHE_HOME
+      value: "{{ xdg_cache_home }}"
+    - var: XDG_CONFIG_HOME
+      value: "{{ xdg_config_home }}"
+    - var: XDG_DATA_HOME
+      value: "{{ xdg_data_home }}"
+    - var: XDG_STATE_HOME
+      value: "{{ xdg_state_home }}"
+
+- name: Create directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0700'
+  loop:
+    - '{{ xdg_cache_home }}'
+    - '{{ xdg_config_home }}'
+    - '{{ xdg_data_home }}'
+    - '{{ xdg_state_home }}'
