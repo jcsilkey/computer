@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>PATH</key>
+    <string>/Users/jason/bin:/Users/jason/.bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin</string>
+    <key>SSH_AUTH_SOCK</key>
+    <string>/Users/jason/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh</string>
+  </dict>
+</plist>
