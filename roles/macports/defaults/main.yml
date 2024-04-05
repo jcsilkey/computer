@@ -1,5 +1,5 @@
 ---
-macports_selfupdate: false
+macports_selfupdate: true
 macports_upgrade: false
 macports_python_version: 311
 macports_ports: []
