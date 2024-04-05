@@ -4,3 +4,28 @@
   community.general.macports:
     name: neovim
     state: installed
+
+- name: Create neovim config directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0700'
+  loop:
+    - '{{ neovim_config_dir }}'
+    - '{{ neovim_data_dir }}'
+    - '{{ neovim_config_plugin_dir }}'
+
+- name: 'Copy init.lua to neovim conf directory'
+  ansible.builtin.copy:
+    src: init.lua
+    dest: "{{ neovim_config_dir }}/init.lua"
+    force: true
+    mode: '0600'
+
+- name: 'Copy colorschemes.lua to neovim plugin conf directory'
+  ansible.builtin.copy:
+    src: plugins/colorscheme.lua
+    dest: "{{ neovim_config_plugin_dir }}/colorscheme.lua"
+    force: true
+    mode: '0600'
+
