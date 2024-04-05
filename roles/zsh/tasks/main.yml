@@ -65,16 +65,32 @@
   loop:
     - paths.zsh
 
+# - name: Create zsh_plugins.txt file
+#   ansible.builtin.lineinfile:
+#     path: '{{ xdg_config_home }}/zsh/zsh_plugins.txt'
+#     line: '{{ item }}'
+#     create: true
+#   loop:
+#     - Tarrasch/zsh-autoenv
+#     - zsh-users/zsh-history-substring-search
+#     - zsh-users/zsh-completions
+#     - zsh-users/zsh-syntax-highlighting
+
 - name: Create zsh_plugins.txt file
-  ansible.builtin.lineinfile:
-    path: '{{ xdg_config_home }}/zsh/zsh_plugins.txt'
-    line: '{{ item }}'
-    create: true
-  loop:
-    - Tarrasch/zsh-autoenv
-    - zsh-users/zsh-syntax-highlighting
-    - zsh-users/zsh-history-substring-search
-    - zsh-users/zsh-completions
+  ansible.builtin.copy:
+    dest: '{{ xdg_config_home }}/zsh/zsh_plugins.txt'
+    content: |
+      {% for plugin in zsh_plugins %}
+      {{ plugin }}
+      {% endfor %}
+  vars:
+    zsh_plugins:
+      - Tarrasch/zsh-autoenv
+      - zsh-users/zsh-autosuggestions
+      - zsh-users/zsh-completions
+      - zsh-users/zsh-syntax-highlighting
+      - zsh-users/zsh-history-substring-search
+
 
 - name: Set autoenv environment variables
   ansible.builtin.lineinfile:
