@@ -1,0 +1,5 @@
+---
+kubectl_version: '1.29'
+talos_version: '1.6.1'
+clusterctl_version: '1.6.0'
+helm_version: '3.13'

@@ -1,0 +1,47 @@
+---
+- name: Install kubectl
+  become: true
+  community.general.macports:
+    name: "kubectl-{{ kubectl_version }}"
+    state: installed
+
+- name: Set active kubectl version
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      /opt/local/bin/port select kubectl kubectl{{ kubectl_version }}
+
+- name: Install krew
+  become: true
+  community.general.macports:
+    name: krew
+    state: installed
+
+- name: Install helm
+  become: true
+  community.general.macports:
+    name: "helm-{{ helm_version }}"
+    state: installed
+
+- name: Set active helm version
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      /opt/local/bin/port select helm helm{{ helm_version }}
+
+- name: Download and install talosctl
+  become: true
+  ansible.builtin.get_url:
+    url: 'https://github.com/siderolabs/talos/releases/download/v{{ talos_version }}/talosctl-darwin-arm64'
+    dest: /usr/local/bin/talosctl
+    mode: '755'
+
+- name: Download and install clusterctl
+  become: true
+  ansible.builtin.get_url:
+    url: 'https://github.com/kubernetes-sigs/cluster-api/releases/download/v{{ clusterctl_version }}/clusterctl-darwin-arm64'
+    dest: /usr/local/bin/clusterctl
+    mode: '755'
+
+
+
