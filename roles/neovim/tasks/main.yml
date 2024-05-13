@@ -13,19 +13,10 @@
   loop:
     - '{{ neovim_config_dir }}'
     - '{{ neovim_data_dir }}'
-    - '{{ neovim_config_plugin_dir }}'
 
-- name: 'Copy init.lua to neovim conf directory'
+- name: 'Copy Neovim conf directory'
   ansible.builtin.copy:
-    src: init.lua
-    dest: "{{ neovim_config_dir }}/init.lua"
+    src: lazyvim/
+    dest: "{{ neovim_config_dir }}"
     force: true
     mode: '0600'
-
-- name: 'Copy colorschemes.lua to neovim plugin conf directory'
-  ansible.builtin.copy:
-    src: plugins/colorscheme.lua
-    dest: "{{ neovim_config_plugin_dir }}/colorscheme.lua"
-    force: true
-    mode: '0600'
-

@@ -9,6 +9,7 @@
   loop:
     - git
     - bfg
+    - lazygit
 
 - name: Get stats of a file
   ansible.builtin.stat:

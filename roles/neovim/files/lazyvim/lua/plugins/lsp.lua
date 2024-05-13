@@ -1,0 +1,5 @@
+return {
+  {
+    "lspcontainers/lspcontainers.nvim",
+  },
+}
