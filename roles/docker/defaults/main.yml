@@ -1,0 +1,9 @@
+---
+docker_ports:
+  - docker
+  - docker-buildx-plugin
+  - docker-compose-plugin
+  - docker-credential-helper-ecr
+  - docker-credential-helper-osxkeychain
+  - podman
+  - podman-compose

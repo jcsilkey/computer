@@ -1,0 +1,5 @@
+---
+virtualization_ports:
+  - lima
+  - colima
+  - socket_vmnet

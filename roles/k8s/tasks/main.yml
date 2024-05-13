@@ -43,5 +43,30 @@
     dest: /usr/local/bin/clusterctl
     mode: '755'
 
+- name: Download Cilium CLI
+  become: true
+  ansible.builtin.get_url:
+    url: 'https://github.com/cilium/cilium-cli/releases/download/v{{ cilium_cli_version }}/cilium-darwin-arm64.tar.gz'
+    dest: /tmp/cilium.tar.gz
+    mode: '755'
 
+- name: Install Cilium CLI
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      tar xzvfC /tmp/cilium.tar.gz /usr/local/bin
+      rm /tmp/cilium.tar.gz
 
+- name: Download Hubble CLI
+  become: true
+  ansible.builtin.get_url:
+    url: 'https://github.com/cilium/hubble/releases/download/v{{ hubble_cli_version }}/hubble-darwin-arm64.tar.gz'
+    dest: /tmp/hubble.tar.gz
+    mode: '755'
+
+- name: Install Hubble CLI
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      tar xzvfC /tmp/hubble.tar.gz /usr/local/bin
+      rm /tmp/hubble.tar.gz

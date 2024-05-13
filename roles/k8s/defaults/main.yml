@@ -1,5 +1,7 @@
 ---
-kubectl_version: '1.29'
-talos_version: '1.6.1'
+kubectl_version: '1.30'
+talos_version: '1.7.0'
 clusterctl_version: '1.6.0'
-helm_version: '3.13'
+helm_version: '3.14'
+cilium_cli_version: '0.16.4'
+hubble_cli_version: '0.13.3'

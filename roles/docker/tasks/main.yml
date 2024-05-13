@@ -1,0 +1,9 @@
+---
+- name: "Install docker ports"
+  become: true
+  community.general.macports:
+    name: "{{ port }}"
+    state: installed
+  loop_control:
+    loop_var: port
+  loop: '{{ docker_ports }}'

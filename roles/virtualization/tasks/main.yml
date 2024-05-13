@@ -1,0 +1,9 @@
+---
+- name: "Install virtualization ports"
+  become: true
+  community.general.macports:
+    name: "{{ port }}"
+    state: installed
+  loop_control:
+    loop_var: port
+  loop: '{{ virtualization_ports }}'
