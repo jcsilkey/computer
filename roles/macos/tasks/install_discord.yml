@@ -1,0 +1,27 @@
+---
+- name: Check Discord version
+  ansible.builtin.shell:
+    cmd: |
+      if [[ -d /Applications/Discord.app ]]; then
+        mdls -name kMDItemVersion --raw /Applications/Discord.app
+      else
+        echo 0.0.0
+      fi
+  register: current_discord_version
+  ignore_errors: true
+
+- name: Download Discord
+  ansible.builtin.get_url:
+    url: 'https://dl.discordapp.net/apps/osx/{{ macos.discord.version }}/Discord.dmg'
+    dest: /tmp/Discord.dmg
+  when: current_discord_version is defined and current_discord_version.stdout is version(macos.discord.version, '<')
+
+- name: Install Discord
+  ansible.builtin.shell:
+    cmd: |
+      hdiutil attach /tmp/Discord.dmg
+      rsync -a /Volumes/Discord/Discord.app /Applications/
+      hdiutil detach /Volumes/Discord
+      rm /tmp/Discord.dmg
+  when: current_discord_version is defined and current_discord_version.stdout is version(macos.discord.version, '<')
+

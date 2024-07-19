@@ -1,0 +1,27 @@
+---
+- name: Check Orbstack version
+  ansible.builtin.shell:
+    cmd: |
+      if [[ -d /Applications/Orbstack.app ]]; then
+        mdls -name kMDItemVersion --raw /Applications/Orbstack.app
+      else
+        echo 0.0.0
+      fi
+  register: current_orbstack_version
+  ignore_errors: true
+
+- name: Download Orbstack
+  ansible.builtin.get_url:
+    url: 'https://cdn-updates.orbstack.dev/arm64/OrbStack_v{{ macos.orbstack.build }}_arm64.dmg'
+    dest: /tmp/OrbStack.dmg
+  when: current_orbstack_version is defined and current_orbstack_version.stdout is version(macos.orbstack.version, '<')
+
+- name: Install Orbstack
+  ansible.builtin.shell:
+    cmd: |
+      hdiutil attach /tmp/OrbStack.dmg
+      rsync -a /Volumes/Install\ OrbStack\ v{{ macos.orbstack.version }}/OrbStack.app /Applications/
+      hdiutil detach /Volumes/Install\ OrbStack\ v{{ macos.orbstack.version }}
+      rm /tmp/OrbStack.dmg
+  when: current_orbstack_version is defined and current_orbstack_version.stdout is version(macos.orbstack.version, '<')
+

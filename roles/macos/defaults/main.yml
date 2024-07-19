@@ -1,0 +1,11 @@
+---
+macos:
+  battery:
+    version: 1.2.1
+  orbstack:
+    version: 1.6.2
+    build: 1.6.1_17010
+  signal:
+    version: 7.11.1
+  discord:
+    version: 0.0.307

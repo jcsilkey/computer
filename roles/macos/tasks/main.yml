@@ -1,0 +1,12 @@
+---
+- name: Install battery app
+  ansible.builtin.import_tasks: install_battery_app.yml
+
+- name: Install Orbstack
+  ansible.builtin.import_tasks: install_orbstack.yml
+
+- name: Install Signal
+  ansible.builtin.import_tasks: install_signal.yml
+
+- name: Install Discord
+  ansible.builtin.import_tasks: install_discord.yml

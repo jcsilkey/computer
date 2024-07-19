@@ -1,0 +1,27 @@
+---
+- name: Check Signal version
+  ansible.builtin.shell:
+    cmd: |
+      if [[ -d /Applications/Signal.app ]]; then
+        mdls -name kMDItemVersion --raw /Applications/Signal.app
+      else
+        echo 0.0.0
+      fi
+  register: current_signal_version
+  ignore_errors: true
+
+- name: Download Signal
+  ansible.builtin.get_url:
+    url: 'https://updates.signal.org/desktop/signal-desktop-mac-arm64-{{ macos.signal.version }}.dmg'
+    dest: /tmp/Signal.dmg
+  when: current_signal_version is defined and current_signal_version.stdout is version(macos.signal.version, '<')
+
+- name: Install Signal
+  ansible.builtin.shell:
+    cmd: |
+      hdiutil attach /tmp/Signal.dmg
+      rsync -a /Volumes/Signal\ {{ macos.signal.version }}-arm64/Signal.app /Applications/
+      hdiutil detach /Volumes/Signal\ {{ macos.signal.version }}-arm64
+      rm /tmp/Signal.dmg
+  when: current_signal_version is defined and current_signal_version.stdout is version(macos.signal.version, '<')
+

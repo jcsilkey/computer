@@ -1,0 +1,20 @@
+---
+- name: Check battery version
+  ansible.builtin.shell:
+    cmd: |
+      if [[ -d /Applications/battery.app ]]; then
+        mdls -name kMDItemVersion --raw /Applications/battery.app
+      else
+        echo 0.0.0
+      fi
+  register: current_battery_version
+  ignore_errors: true
+
+- name: Download and install battery
+  become: true
+  ansible.builtin.unarchive:
+    src: 'https://github.com/actuallymentor/battery/releases/download/v{{ macos.battery.version }}/battery-{{ macos.battery.version }}-mac-arm64.zip'
+    dest: /Applications
+    remote_src: true
+  when: current_battery_version is defined and current_battery_version.stdout is version(macos.battery.version, 'ne')
+
